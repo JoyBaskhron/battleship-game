@@ -133,16 +133,37 @@ var controller = {
 
 				document.body.appendChild(playAgainButton);
 
-				playAgainButton.addEventListener("click", function () {
-					location.reload();
-				});
+								playAgainButton.addEventListener("click", resetGame);
+
 			}
 		}
 	}
 };
 
 
+function resetGame() {
+	controller.guesses = 0;
 
+	model.shipsSunk = 0;
+	model.generateShipLocations(); 
+
+	view.displayMessage("");
+
+	const playAgainButton = document.querySelector("button");
+	if (playAgainButton) {
+		playAgainButton.remove();
+	}
+
+	view.clearBoard();
+}
+
+
+view.clearBoard = function () {
+	const cells = document.querySelectorAll(".hit, .miss");
+	cells.forEach(cell => {
+		cell.removeAttribute("class");
+	});
+};
 
 function parseGuess(guess) {
 	var alphabet = ["A", "B", "C", "D", "E", "F", "G"];
